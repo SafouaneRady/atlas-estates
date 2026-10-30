@@ -3,7 +3,7 @@ import WhatsAppButton from "@/components/whatsapp-button";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://atlas-estates.primemouse66.chatgpt.site"),
+  metadataBase: new URL("https://atlas-estates-phi.vercel.app"),
   title: { default: "Atlas Estates | Exceptional homes in Morocco", template: "%s | Atlas Estates" },
   description: "A concept luxury real estate experience for exceptional homes across Morocco.",
   keywords: ["luxury property Morocco", "Agadir villas", "Taghazout property", "Marrakech real estate", "Casablanca apartments"],
