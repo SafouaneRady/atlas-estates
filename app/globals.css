@@ -72,12 +72,12 @@ h2 { font-size:clamp(46px,5vw,76px); line-height:.97; letter-spacing:-.035em; }
 .search-field.is-open .select-trigger svg { transform:rotate(180deg); }
 .search-field.is-disabled { opacity:.52; }
 .select-trigger:disabled { cursor:not-allowed; }
-.select-menu { position:absolute; z-index:20; left:10px; right:10px; top:calc(100% + 10px); padding:7px; background:rgba(250,248,243,.98); border:1px solid rgba(25,58,52,.14); border-radius:8px; box-shadow:0 18px 40px rgba(8,27,23,.22); backdrop-filter:blur(14px); animation:select-in .18s ease-out; }
+.select-menu { position:absolute; z-index:20; left:10px; right:10px; bottom:calc(100% + 10px); padding:7px; background:rgba(250,248,243,.98); border:1px solid rgba(25,58,52,.14); border-radius:8px; box-shadow:0 18px 40px rgba(8,27,23,.22); backdrop-filter:blur(14px); animation:select-in .18s ease-out; }
 .select-menu button { width:100%; min-height:38px; padding:0 10px; border:0; border-radius:5px; background:transparent; color:#52605c; display:flex; align-items:center; justify-content:space-between; gap:12px; cursor:pointer; font-size:10px; text-align:left; transition:background .18s ease,color .18s ease; }
 .select-menu button:hover,.select-menu button:focus-visible { background:rgba(25,58,52,.08); color:var(--green); outline:none; }
 .select-menu button.selected { background:var(--green); color:white; }
 .select-menu button svg { color:var(--gold); }
-@keyframes select-in { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+@keyframes select-in { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
 .search-button { border:0; border-radius:2px; background:var(--green); color:white; display:flex; align-items:center; justify-content:center; gap:10px; cursor:pointer; text-transform:uppercase; font-size:9px; letter-spacing:.13em; transition:.3s; }
 .search-button:hover { background:#224b43; }
 .scroll-cue { display:none; }
@@ -155,7 +155,7 @@ footer { background:#102b27; color:white; padding:85px 0 25px; }.footer-grid { d
   .desktop-nav,.nav-contact { display:none; }.nav { width:calc(100% - 28px); height:56px; top:12px; padding:0 14px; grid-template-columns:1fr auto; }.menu-button { display:block; }
   .secondary-nav { width:calc(100% - 28px); grid-template-columns:1fr auto; }.secondary-nav nav { display:none; }.secondary-contact { font-size:0; }.secondary-contact svg { width:20px; }
   .hero { min-height:720px; max-height:none; }.hero-content { padding-top:105px; padding-bottom:30px; justify-content:flex-end; }.hero h1 { font-size:clamp(50px,11vw,70px); }.hero-copy { margin:18px 0 22px; }
-  .search-panel { grid-template-columns:1fr 1fr; min-height:0; padding:6px; }.search-tabs { grid-template-columns:1fr 1fr; grid-column:1/-1; height:42px; margin:0 0 6px; }.search-field { min-height:64px; padding:9px 14px; }.search-field:nth-of-type(1) { grid-column:1/-1; border-left:0; }.search-field:nth-of-type(3) { border-left:1px solid rgba(35,38,38,.12); }.select-menu { top:calc(100% + 5px); }.search-button { grid-column:1/-1; min-height:50px; margin-top:6px; }.scroll-cue,.concept-label { display:none; }
+  .search-panel { grid-template-columns:1fr 1fr; min-height:0; padding:6px; }.search-tabs { grid-template-columns:1fr 1fr; grid-column:1/-1; height:42px; margin:0 0 6px; }.search-field { min-height:64px; padding:9px 14px; }.search-field:nth-of-type(1) { grid-column:1/-1; border-left:0; }.search-field:nth-of-type(3) { border-left:1px solid rgba(35,38,38,.12); }.select-menu { bottom:calc(100% + 5px); }.search-button { grid-column:1/-1; min-height:50px; margin-top:6px; }.scroll-cue,.concept-label { display:none; }
   .section-head { align-items:flex-start; flex-direction:column; margin-bottom:48px; }.properties { padding-top:76px; padding-bottom:84px; }.properties .section-head { margin-bottom:36px; }.property-grid { grid-template-columns:1fr; gap:44px; }.destination-grid { grid-template-columns:1fr 1fr; grid-template-rows:390px 260px 340px; }.destination-1 { grid-row:span 2; }.destination-4 { grid-row:2/span 2; }.destination h3 { font-size:36px; }
   .about { grid-template-columns:1fr; }.about-visual { min-height:580px; margin-right:34px; }.about-copy { padding-top:25px; }
   .city-hero { min-height:540px; }.city-property-grid { grid-template-columns:1fr; }
