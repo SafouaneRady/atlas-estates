@@ -17,7 +17,7 @@ const capabilities = [
 ] as const;
 
 export default function CaseStudyPage() {
-  return <><SecondaryHeader/><main className="case-study">
+  return <><SecondaryHeader switchHref="/fr/case-study"/><main className="case-study">
     <header className="case-hero"><Image src="/images/hero-atlas.webp" alt="Atlas Estates luxury real-estate homepage concept" fill priority fetchPriority="high" quality={84} sizes="100vw"/><div className="case-hero-overlay"/><div className="shell case-hero-copy"><p className="eyebrow">Portfolio case study · 2026</p><h1>A quieter way to explore <em>exceptional homes.</em></h1><p>Atlas Estates is a fictional end-to-end luxury real-estate experience conceived, designed and developed as a portfolio project.</p><a href="#project" className="button-ivory">Explore the project <ArrowRight size={16}/></a></div></header>
 
     <section className="section shell case-intro" id="project"><div><p className="eyebrow dark">The brief</p><h2>Make luxury feel <em>personal, not distant.</em></h2></div><div><p>The project explores how a premium Moroccan property brand could balance editorial storytelling with practical property discovery. The experience needed to feel composed and aspirational while remaining clear, responsive and useful.</p><dl><div><dt>Role</dt><dd>Concept, UI/UX and development</dd></div><div><dt>Platform</dt><dd>Responsive web experience</dd></div><div><dt>Stack</dt><dd>Next.js, React, TypeScript and GSAP</dd></div></dl></div></section>

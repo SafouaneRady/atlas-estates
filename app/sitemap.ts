@@ -9,7 +9,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url:baseUrl, lastModified:new Date(), changeFrequency:"monthly", priority:1 },
     { url:`${baseUrl}/fr`, lastModified:new Date(), changeFrequency:"monthly", priority:.9 },
     { url:`${baseUrl}/case-study`, lastModified:new Date(), changeFrequency:"monthly", priority:.9 },
+    { url:`${baseUrl}/fr/case-study`, lastModified:new Date(), changeFrequency:"monthly", priority:.8 },
     ...destinations.map(({ slug }) => ({ url:`${baseUrl}/destinations/${slug}`, lastModified:new Date(), changeFrequency:"weekly" as const, priority:.8 })),
+    ...destinations.map(({ slug }) => ({ url:`${baseUrl}/fr/destinations/${slug}`, lastModified:new Date(), changeFrequency:"weekly" as const, priority:.8 })),
     ...properties.map(({ slug }) => ({ url:`${baseUrl}/properties/${slug}`, lastModified:new Date(), changeFrequency:"weekly" as const, priority:.9 })),
+    ...properties.map(({ slug }) => ({ url:`${baseUrl}/fr/properties/${slug}`, lastModified:new Date(), changeFrequency:"weekly" as const, priority:.9 })),
   ];
 }
