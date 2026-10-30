@@ -1,12 +1,17 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Bath, BedDouble, Check, MapPin, Ruler } from "lucide-react";
+import { ArrowLeft, ArrowRight, Bath, BedDouble, Building2, CalendarDays, Car, Check, MapPin, MapPinned, Ruler } from "lucide-react";
 import { notFound } from "next/navigation";
 import { destinations, properties } from "@/lib/properties";
 import { SecondaryHeader, SiteFooter } from "@/components/site-chrome";
 
 const whatsappNumber = "212656089067";
+const areaGuides:Record<string,{ en:string; fr:string; highlights:[string,string][] }> = {
+  Taghazout:{ en:"A relaxed Atlantic enclave north of Agadir, known for surf beaches, clifftop dining and an easy connection to Taghazout Bay resort life.", fr:"Une enclave atlantique paisible au nord d’Agadir, réputée pour ses plages de surf, ses tables en hauteur et l’art de vivre de Taghazout Bay.", highlights:[["Taghazout Bay","5 min"],["Golf Tazegzout","8 min"],["Agadir Marina","25 min"]] },
+  Marrakech:{ en:"A private setting within easy reach of the medina, leading restaurants, golf courses and the city’s cultural landmarks.", fr:"Un cadre privé à proximité de la médina, des meilleures tables, des golfs et des lieux culturels de la ville.", highlights:[["Medina","15 min"],["Marrakech Airport","20 min"],["Atlas Mountains","45 min"]] },
+  Casablanca:{ en:"A well-connected address close to the coast, business districts, private schools and Casablanca’s most established neighbourhoods.", fr:"Une adresse bien connectée, proche du littoral, des quartiers d’affaires, des écoles privées et des secteurs les plus recherchés de Casablanca.", highlights:[["Corniche","8 min"],["City centre","12 min"],["Casablanca Airport","35 min"]] },
+  Agadir:{ en:"A calm residential setting close to the Atlantic, international schools, golf and the everyday amenities of central Agadir.", fr:"Un environnement résidentiel calme, proche de l’Atlantique, des écoles internationales, du golf et des services du centre d’Agadir.", highlights:[["Agadir Beach","10 min"],["Marina","15 min"],["Agadir Airport","25 min"]] },
+};
 
 export default async function PropertyPageView({ params, locale="en" }:{ params:Promise<{ slug:string }>; locale?:"en"|"fr" }) {
   const { slug } = await params;
@@ -14,6 +19,8 @@ export default async function PropertyPageView({ params, locale="en" }:{ params:
   const property = properties.find((item) => item.slug === slug);
   if (!property) notFound();
   const city = destinations.find((item) => item.name === property.city);
+  const gallery = [property,...properties.filter((item)=>item.city===property.city&&item.slug!==property.slug)].slice(0,3);
+  const area = areaGuides[property.city];
   const message = encodeURIComponent(fr?`Bonjour Atlas Estates, je souhaite obtenir des informations sur ${property.title} à ${property.location}.`:`Hello Atlas Estates, I’d like to enquire about ${property.title} in ${property.location}.`);
 
   return <><SecondaryHeader locale={locale} switchHref={fr?`/properties/${slug}`:`/fr/properties/${slug}`}/><main className="property-page">
@@ -21,6 +28,9 @@ export default async function PropertyPageView({ params, locale="en" }:{ params:
     <section className="section shell property-overview"><div className="property-story"><p className="eyebrow dark">{fr?"La résidence":"The residence"}</p><h2>{fr?<>Pensée pour un art de vivre <em>plus harmonieux.</em></>:<>Designed for a more <em>considered life.</em></>}</h2><p>{fr?`Une résidence d’exception à ${property.location}, conçue autour de volumes généreux, de matières naturelles et d’un art de vivre raffiné.`:property.description}</p><ul className="feature-list">{property.features.map((feature) => <li key={feature}><Check size={15}/>{feature}</li>)}</ul></div>
       <aside className="property-enquiry"><p className="property-detail-price">{property.price}</p><div className="property-facts"><span><BedDouble/> <b>{property.beds}</b> {fr?"Chambres":"Bedrooms"}</span><span><Bath/> <b>{property.baths}</b> {fr?"Salles de bains":"Bathrooms"}</span><span><Ruler/> <b>{property.area}</b> {fr?"Intérieur":"Interior"}</span></div><a className="whatsapp-enquiry" href={`https://wa.me/${whatsappNumber}?text=${message}`} target="_blank" rel="noopener noreferrer">{fr?"Demander sur WhatsApp":"Enquire on WhatsApp"} <ArrowRight size={16}/></a><Link className="text-link" href={`${prefix||"/"}#contact`}>{fr?"Demander une visite privée":"Request a private viewing"} <ArrowRight size={16}/></Link><small>{fr?"Annonce conceptuelle fictive pour démonstration portfolio.":"Fictional concept listing for portfolio demonstration."}</small></aside>
     </section>
+    <section className="property-gallery shell" aria-labelledby="gallery-heading"><div className="property-section-heading"><div><p className="eyebrow dark">{fr?"Visite en images":"Inside the residence"}</p><h2 id="gallery-heading">{fr?<>Des espaces pensés<br/><em>dans les moindres détails.</em></>:<>Spaces considered<br/><em>in every detail.</em></>}</h2></div><p>{fr?"Une sélection visuelle pour découvrir l’atmosphère, les matières et le cadre de la propriété.":"A closer look at the atmosphere, material palette and setting of the residence."}</p></div><div className="gallery-grid">{gallery.map((image,index)=><figure key={image.slug} className={`gallery-image gallery-image-${index+1}`}><Image src={image.image} alt={`${property.title} ${fr?"— vue":"— view"} ${index+1}`} fill quality={82} sizes={index===0?"(max-width: 800px) 100vw, 65vw":"(max-width: 800px) 100vw, 35vw"}/><figcaption>0{index+1}</figcaption></figure>)}</div></section>
+    <section className="property-specifications"><div className="shell"><div className="property-section-heading"><div><p className="eyebrow">{fr?"En détail":"At a glance"}</p><h2>{fr?<>Caractéristiques<br/><em>de la propriété.</em></>:<>Property<br/><em>specifications.</em></>}</h2></div></div><div className="spec-grid">{[[Building2,fr?"Type de bien":"Property type",fr?(property.type==="Apartment"?"Appartement":"Villa"):property.type],[Ruler,fr?"Surface intérieure":"Interior area",property.area],[BedDouble,fr?"Chambres":"Bedrooms",String(property.beds)],[Bath,fr?"Salles de bains":"Bathrooms",String(property.baths)],[Car,fr?"Stationnement":"Parking",fr?"2 places privées":"2 private spaces"],[CalendarDays,fr?"Disponibilité":"Availability",property.intent==="rent"?(fr?"Disponible sur demande":"Available on request"):(fr?"Prêt à visiter":"Ready to view")]].map(([Icon,label,value])=>{const SpecIcon=Icon as typeof Building2;return <article key={label as string}><SpecIcon/><span>{label as string}</span><strong>{value as string}</strong></article>})}</div></div></section>
+    {area&&<section className="section shell property-location"><div className="location-copy"><p className="eyebrow dark">{fr?"Le quartier":"The location"}</p><h2>{property.location}<br/><em>{property.city}, Maroc.</em></h2><p>{fr?area.fr:area.en}</p><ul>{area.highlights.map(([place,time])=><li key={place}><MapPinned/><span>{place}</span><strong>{time}</strong></li>)}</ul><Link className="text-link" href={`${prefix}/destinations/${city?.slug}`}>{fr?`Découvrir ${property.city}`:`Explore ${property.city}`} <ArrowRight size={16}/></Link></div><div className="location-card"><MapPin/><span>{fr?"Emplacement indicatif":"Indicative location"}</span><strong>{property.location}</strong><small>{fr?"L’adresse exacte est communiquée lors d’une visite privée.":"The exact address is shared during a private viewing."}</small></div></section>}
   </main><SiteFooter locale={locale}/></>;
 }
 
