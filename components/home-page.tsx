@@ -11,6 +11,32 @@ import SiteHeader from "@/components/site-header";
 
 function Brand({ light=false }:{ light?:boolean }) { return <a href="#top" className={`brand ${light ? "brand-light" : ""}`} aria-label="Atlas Estates home"><span className="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><circle className="mark-ring" cx="20" cy="20" r="16.5"/><path className="mark-mountain" d="m8.5 27.5 9.1-15 5.1 8 3.8-5 5 12"/><path className="mark-horizon" d="M8.5 30.5h23"/><path className="mark-door" d="M17.2 30.5v-5.2h5.6v5.2"/></svg></span><span className="brand-wordmark"><b>ATLAS</b><small>ESTATES</small></span></a>; }
 
+type SelectOption = { value:string; label:string };
+
+function SearchSelect({ label, value, options, onChange, disabled=false }:{ label:string; value:string; options:SelectOption[]; onChange:(value:string)=>void; disabled?:boolean }) {
+  const [open,setOpen] = useState(false);
+  const field = useRef<HTMLDivElement>(null);
+  const selected = options.find((option)=>option.value === value) ?? options[0];
+
+  useEffect(()=>{
+    function close(event:MouseEvent) { if (!field.current?.contains(event.target as Node)) setOpen(false); }
+    function escape(event:KeyboardEvent) { if (event.key === "Escape") setOpen(false); }
+    document.addEventListener("mousedown",close);
+    document.addEventListener("keydown",escape);
+    return ()=>{ document.removeEventListener("mousedown",close); document.removeEventListener("keydown",escape); };
+  },[]);
+
+  return <div className={`search-field${open ? " is-open" : ""}${disabled ? " is-disabled" : ""}`} ref={field}>
+    <span className="search-field-label">{label}</span>
+    <button type="button" className="select-trigger" aria-haspopup="listbox" aria-expanded={open} disabled={disabled} onClick={()=>setOpen((current)=>!current)}>
+      <span>{selected.label}</span><ChevronDown aria-hidden="true" size={16}/>
+    </button>
+    {open && <div className="select-menu" role="listbox" aria-label={label}>
+      {options.map((option)=><button type="button" role="option" aria-selected={option.value === value} className={option.value === value ? "selected" : ""} key={option.value} onClick={()=>{ onChange(option.value); setOpen(false); }}><span>{option.label}</span>{option.value === value && <Check aria-hidden="true" size={14}/>}</button>)}
+    </div>}
+  </div>;
+}
+
 export default function HomePage() {
   const root = useRef<HTMLDivElement>(null);
   const [intent,setIntent] = useState<Intent>("buy"), [location,setLocation] = useState(""), [propertyType,setPropertyType] = useState(""), [budget,setBudget] = useState("");
@@ -46,7 +72,7 @@ export default function HomePage() {
     <SiteHeader home onContact={()=>setInquiry("Private consultation")}/>
     <main id="main-content">
       <section className="hero" aria-labelledby="hero-title"><Image className="hero-photo" src="/images/hero-atlas.jpg" alt="Contemporary Moroccan coastal villa overlooking the Atlantic at dusk" fill priority quality={90} sizes="100vw"/><div className="hero-overlay"/><div className="hero-content shell"><p className="eyebrow hero-reveal">Curated residences · Morocco</p><h1 id="hero-title" className="hero-reveal">Find a place worth<br/><em>calling home.</em></h1><p className="hero-copy hero-reveal">A considered collection of exceptional homes, chosen for how beautifully they are lived in.</p>
-        <form className="search-panel hero-reveal" role="search" aria-label="Search properties" onSubmit={applyFilters}><fieldset className="search-tabs"><legend className="sr-only">Listing type</legend><button type="button" aria-pressed={intent === "buy"} className={intent === "buy" ? "active" : ""} onClick={()=>setIntent("buy")}>Buy</button><button type="button" aria-pressed={intent === "rent"} className={intent === "rent" ? "active" : ""} onClick={()=>setIntent("rent")}>Rent</button></fieldset><label><span>Location</span><select value={location} onChange={(e)=>setLocation(e.target.value)}><option value="">All of Morocco</option><option>Agadir</option><option>Taghazout</option><option>Marrakech</option><option>Casablanca</option></select><ChevronDown aria-hidden="true" size={16}/></label><label><span>Property type</span><select value={propertyType} onChange={(e)=>setPropertyType(e.target.value)}><option value="">Any property</option><option>Villa</option><option>Apartment</option></select><ChevronDown aria-hidden="true" size={16}/></label><label><span>Budget</span><select value={budget} onChange={(e)=>setBudget(e.target.value)} disabled={intent === "rent"}><option value="">{intent === "rent" ? "Any monthly budget" : "Any price"}</option><option value="under-5">Under 5M MAD</option><option value="5-10">5M – 10M MAD</option><option value="10-20">10M – 20M MAD</option><option value="20-plus">20M+ MAD</option></select><ChevronDown aria-hidden="true" size={16}/></label><button type="submit" className="search-button"><Search size={18}/><span>Search properties</span></button></form></div><a href="#properties" className="scroll-cue"><span>Explore</span><ArrowDown size={17}/></a><p className="concept-label">Concept imagery · Demo portfolio project</p></section>
+        <form className="search-panel hero-reveal" role="search" aria-label="Search properties" onSubmit={applyFilters}><fieldset className="search-tabs"><legend className="sr-only">Listing type</legend><button type="button" aria-pressed={intent === "buy"} className={intent === "buy" ? "active" : ""} onClick={()=>setIntent("buy")}>Buy</button><button type="button" aria-pressed={intent === "rent"} className={intent === "rent" ? "active" : ""} onClick={()=>setIntent("rent")}>Rent</button></fieldset><SearchSelect label="Location" value={location} onChange={setLocation} options={[{value:"",label:"All of Morocco"},{value:"Agadir",label:"Agadir"},{value:"Taghazout",label:"Taghazout"},{value:"Marrakech",label:"Marrakech"},{value:"Casablanca",label:"Casablanca"}]}/><SearchSelect label="Property type" value={propertyType} onChange={setPropertyType} options={[{value:"",label:"Any property"},{value:"Villa",label:"Villa"},{value:"Apartment",label:"Apartment"}]}/><SearchSelect label="Budget" value={budget} onChange={setBudget} disabled={intent === "rent"} options={[{value:"",label:intent === "rent" ? "Any monthly budget" : "Any price"},{value:"under-5",label:"Under 5M MAD"},{value:"5-10",label:"5M – 10M MAD"},{value:"10-20",label:"10M – 20M MAD"},{value:"20-plus",label:"20M+ MAD"}]}/><button type="submit" className="search-button"><Search size={18}/><span>Search properties</span></button></form></div><a href="#properties" className="scroll-cue"><span>Explore</span><ArrowDown size={17}/></a><p className="concept-label">Concept imagery · Demo portfolio project</p></section>
 
       <section className="section properties shell" id="properties" aria-labelledby="properties-heading"><div className="section-head" data-reveal><div><p className="eyebrow dark">A distinctive collection</p><h2 id="properties-heading">Homes with a <em>sense of place.</em></h2></div><div className="section-intro"><p>Selected for their architecture, setting and singular character — from quiet coastal retreats to storied city residences.</p><button className="text-link button-link" onClick={resetFilters}>Browse complete collection <ArrowRight size={16}/></button></div></div>
         {filtersApplied && <div className="results-bar" aria-live="polite"><p><strong>{filteredProperties.length}</strong> {filteredProperties.length === 1 ? "residence" : "residences"} matching your search{location ? ` in ${location}` : ""}</p><button onClick={resetFilters}><X size={14}/> Clear filters</button></div>}
