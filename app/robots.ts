@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 
+export const dynamic = "force-static";
+
 export default function robots(): MetadataRoute.Robots {
-  return { rules: { userAgent: "*", allow: "/" }, sitemap: "https://atlas-estates.example/sitemap.xml" };
+  return { rules: { userAgent: "*", allow: "/" }, sitemap: "https://atlas-estates.primemouse66.chatgpt.site/sitemap.xml" };
 }
