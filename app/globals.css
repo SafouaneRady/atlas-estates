@@ -159,6 +159,31 @@ footer { background:#102b27; color:white; padding:85px 0 25px; }.footer-grid { d
 @keyframes whatsapp-orbit { 0%,100% { transform:scale(.96); opacity:.25; } 50% { transform:scale(1.08); opacity:.62; } }
 @keyframes whatsapp-shadow { 0%,100% { transform:scale(1); opacity:.55; } 50% { transform:scale(.72); opacity:.25; } }
 
+@media (min-width: 901px) {
+  .eyebrow { font-size:11px; }
+  .desktop-nav,.secondary-nav nav { font-size:10px; }
+  .nav-contact,.secondary-contact,.language-switch { font-size:9px; }
+  .hero-copy { font-size:14px; }
+  .search-tabs button { font-size:11px; }
+  .search-field-label { font-size:9px; }
+  .select-trigger { font-size:12px; }
+  .select-menu button { font-size:11px; }
+  .search-button { font-size:10px; }
+  .section-intro,.section-head>p,.city-listings .section-head>p,.property-section-heading>p { font-size:15px; }
+  .section-intro a,.text-link,.results-bar button,.city-more .button-dark { font-size:11px; }
+  .property-image>span:not(.round-arrow),.property-meta>p { font-size:9px; }
+  .property-bottom ul,.destination p,.destination-index,.demo-note { font-size:10px; }
+  .property-bottom strong,.property-facts span,.feature-list li,.location-copy li { font-size:12px; }
+  .service-row>span,.principles li>span,.case-intro dt,.case-capability-grid span { font-size:10px; }
+  .contact-form label span,.location-card span,.spec-grid span { font-size:9px; }
+  .contact-form input,.contact-form textarea { font-size:14px; }
+  .contact-disclaimer,.property-enquiry small { font-size:10px; }
+  .button-ivory,.button-dark,.case-whatsapp,.whatsapp-enquiry { font-size:10px; }
+  .footer-grid b { font-size:10px; }
+  .footer-grid a,.footer-address { font-size:12px; }
+  .footer-bottom { font-size:9px; }
+}
+
 @media (max-width: 900px) {
   .shell { width:min(100% - 32px,1340px); }.section { padding:95px 0; }
   .desktop-nav,.nav-actions { display:none; }.nav { width:calc(100% - 28px); height:56px; top:12px; padding:0 14px; grid-template-columns:1fr auto; }.menu-button { display:block; }
