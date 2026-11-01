@@ -3,7 +3,7 @@ import { ArrowRight, MapPin } from "lucide-react";
 import SiteHeader from "@/components/site-header";
 
 function Brand({ light=false }:{ light?:boolean }) {
-  return <Link href="/#top" className={`brand ${light ? "brand-light" : ""}`} aria-label="Atlas Estates home"><span className="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><circle className="mark-ring" cx="20" cy="20" r="16.5"/><path className="mark-mountain" d="m8.5 27.5 9.1-15 5.1 8 3.8-5 5 12"/><path className="mark-horizon" d="M8.5 30.5h23"/><path className="mark-door" d="M17.2 30.5v-5.2h5.6v5.2"/></svg></span><span className="brand-wordmark"><b>ATLAS</b><small>ESTATES</small></span></Link>;
+  return <Link href="/#top" className={`brand ${light ? "brand-light" : ""}`} aria-label="Atlas Estates"><span className="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><circle className="mark-ring" cx="20" cy="20" r="16.5"/><path className="mark-mountain" d="m8.5 27.5 9.1-15 5.1 8 3.8-5 5 12"/><path className="mark-horizon" d="M8.5 30.5h23"/><path className="mark-door" d="M17.2 30.5v-5.2h5.6v5.2"/></svg></span><span className="brand-wordmark"><b>ATLAS</b><small>ESTATES</small></span></Link>;
 }
 
 export function SecondaryHeader({ locale="en", switchHref }:{ locale?:"en"|"fr"; switchHref?:string }) {
