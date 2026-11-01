@@ -4,8 +4,6 @@ import Image from "next/image";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ArrowDown, ArrowRight, Bath, BedDouble, Building2, Check, ChevronDown, Compass, KeyRound, LandPlot, MapPin, Ruler, Search, ShieldCheck, Sparkles, X } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { destinations, listingCountLabel, properties, type Intent } from "@/lib/properties";
 import SiteHeader from "@/components/site-header";
 import { SiteFooter } from "@/components/site-chrome";
@@ -52,7 +50,6 @@ export default function HomePage({ locale="en" }:{ locale?:"en"|"fr" }) {
   } : {
     skip:"Skip to content", curated:"Curated residences · Morocco", heroTitle:<>Find a place worth<br/><em>calling home.</em></>, heroCopy:"A considered collection of exceptional homes, chosen for how beautifully they are lived in.", buy:"Buy", rent:"Rent", location:"Location", allMorocco:"All of Morocco", propertyType:"Property type", anyProperty:"Any property", villa:"Villa", apartment:"Apartment", budget:"Budget", anyPrice:"Any price", monthlyBudget:"Any monthly budget", search:"Search properties", collection:"A distinctive collection", homesTitle:<>Homes with a <em>sense of place.</em></>, homesIntro:"Selected for their architecture, setting and singular character — from quiet coastal retreats to storied city residences.", browse:"Browse complete collection", places:"Places we know by heart", explore:<>Explore <em>Morocco.</em></>, destinationsCopy:"Four destinations. Four distinct ways of living. Swipe to explore on mobile.", approach:"The Atlas approach", aboutTitle:<>Property is personal.<br/><em>So is our service.</em></>, about1:"Atlas Estates is a fictional luxury property concept built around a simple belief: finding a home should feel considered, never transactional.", about2:"Our approach pairs intimate local knowledge with quiet discretion and genuinely personal guidance — from the first conversation to the final key.", services:"What we do", servicesTitle:<>Expertise, shaped<br/>around <em>you.</em></>, contact:"Start a conversation", contactTitle:<>Wherever you are in your journey,<br/><em>we’d be delighted to help.</em></>, name:"Name", email:"Email", help:"How can we help?", send:"Send via WhatsApp"
   };
-  const root = useRef<HTMLDivElement>(null);
   const [intent,setIntent] = useState<Intent>("buy"), [location,setLocation] = useState(""), [propertyType,setPropertyType] = useState(""), [budget,setBudget] = useState("");
   const [filtersApplied,setFiltersApplied] = useState(false), [inquiry,setInquiry] = useState(""), [sent,setSent] = useState(false);
   const featuredProperties = properties.filter((property) => ["villa-azur","dar-noura","anfa-residence","domaine-tilia"].includes(property.slug));
@@ -61,12 +58,6 @@ export default function HomePage({ locale="en" }:{ locale?:"en"|"fr" }) {
     const budgetMatches = !budget || property.intent === "rent" || (budget === "under-5" && property.priceValue < 5) || (budget === "5-10" && property.priceValue >= 5 && property.priceValue <= 10) || (budget === "10-20" && property.priceValue > 10 && property.priceValue <= 20) || (budget === "20-plus" && property.priceValue > 20);
     return property.intent === intent && (!location || property.city === location) && (!propertyType || property.type === propertyType) && budgetMatches;
   });
-
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    const ctx = gsap.context(() => { if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return; gsap.from(".hero-reveal",{ y:48,opacity:0,duration:1.1,stagger:.12,ease:"power3.out",delay:.2 }); gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => gsap.from(el,{ scrollTrigger:{ trigger:el,start:"top 88%",once:true },y:36,opacity:0,duration:.85,ease:"power3.out" })); gsap.to(".hero-photo",{ scale:1.06,yPercent:3,ease:"none",scrollTrigger:{ trigger:".hero",start:"top top",end:"bottom top",scrub:true } }); },root);
-    return () => ctx.revert();
-  },[]);
 
   function applyFilters(event?:FormEvent) { event?.preventDefault(); setFiltersApplied(true); requestAnimationFrame(()=>document.querySelector("#properties")?.scrollIntoView({ behavior:"smooth" })); }
   function resetFilters() { setIntent("buy"); setLocation(""); setPropertyType(""); setBudget(""); setFiltersApplied(false); }
@@ -81,7 +72,7 @@ export default function HomePage({ locale="en" }:{ locale?:"en"|"fr" }) {
     setSent(true);
   }
 
-  return <div ref={root} id="top" className="min-h-screen antialiased">
+  return <div id="top" className="min-h-screen antialiased">
     <a className="skip-link" href="#main-content">{t.skip}</a>
     <SiteHeader home locale={locale} onContact={()=>setInquiry(fr ? "Consultation privée" : "Private consultation")}/>
     <main id="main-content">
